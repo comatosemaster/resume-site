@@ -1,0 +1,79 @@
+{% extends "resume/base.html" %}
+{% block title %}Education – {{ profile.full_name }}{% endblock %}
+
+{% block content %}
+
+<style>
+    .edu-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .edu-card {
+        position: relative;
+        padding: 24px 28px;
+        background: var(--bg-glass);
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(255,255,255,0.08);
+        backdrop-filter: blur(12px);
+        transition: var(--transition);
+    }
+
+    .edu-card:hover {
+        border-color: rgba(255,255,255,0.22);
+        transform: translateX(6px);
+    }
+
+    .edu-card::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 18px;
+        bottom: 18px;
+        width: 4px;
+        border-radius: 4px;
+        background: linear-gradient(var(--accent-1), var(--accent-2));
+        opacity: .85;
+    }
+
+    .edu-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+
+    .edu-school {
+        color: var(--text-muted);
+        margin-bottom: 10px;
+    }
+
+    .edu-dates {
+        font-size: 13px;
+        color: var(--accent-3);
+        margin-bottom: 12px;
+    }
+
+    .edu-desc {
+        color: var(--text-main);
+        opacity: .85;
+        line-height: 1.5;
+    }
+</style>
+
+<div class="edu-wrapper">
+
+    {% for edu in education %}
+    <div class="edu-card">
+        <div class="edu-title">{{ edu.degree }}</div>
+        <div class="edu-school">{{ edu.school }}</div>
+        <div class="edu-dates">{{ edu.start_year }} – {{ edu.end_year }}</div>
+        <div class="edu-desc">{{ edu.description }}</div>
+    </div>
+    {% empty %}
+        <p style="opacity:.6;">No education added yet.</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

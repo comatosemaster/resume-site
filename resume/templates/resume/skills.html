@@ -1,0 +1,97 @@
+{% extends "resume/base.html" %}
+
+{% block title %}Skills – {{ profile.full_name }}{% endblock %}
+
+{% block content %}
+
+<style>
+    .skills-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center; /* FIXES VERTICAL ALIGNMENT */
+    }
+
+    .skill-pill {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        height: 34px;               /* <-- HARD LOCK height */
+        padding: 0 18px;            /* <-- No vertical padding */
+        line-height: 1;             /* <-- Consistent baseline */
+        font-size: 14px;
+
+        border-radius: 999px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+
+        letter-spacing: 0.3px;
+        gap: 8px;
+        white-space: nowrap;
+        box-sizing: border-box;
+    }
+
+    .skill-level-hard {
+        color: var(--accent-3);
+        font-size: 12px;
+        opacity: .85;
+    }
+
+    .skill-level-soft {
+        color: var(--accent-2);
+        font-size: 12px;
+        opacity: .85;
+    }
+</style>
+
+
+<div class="section">
+    <h2 class="section-title" style="font-size: 40px;">Skills</h2>
+    <p class="section-sub">
+        A collection of my technical and soft skills, maintained through continuous learning.
+    </p>
+
+    <!-- HARD SKILLS -->
+    <div style="margin-bottom: 32px;">
+        <h3 class="section-title" style="font-size: 20px; margin-bottom: 12px;">
+            Hard Skills
+        </h3>
+
+        {% if skills_hard %}
+            <div class="skills-row">
+                {% for skill in skills_hard %}
+                    <div class="skill-pill">
+                        <span>{{ skill.name }}</span>
+                        <span class="skill-level-hard">{{ skill.level }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p style="color:var(--text-soft);">No hard skills added yet.</p>
+        {% endif %}
+    </div>
+
+    <!-- SOFT SKILLS -->
+    <div>
+        <h3 class="section-title" style="font-size: 20px; margin-bottom: 12px;">
+            Soft Skills
+        </h3>
+
+        {% if skills_soft %}
+            <div class="skills-row">
+                {% for skill in skills_soft %}
+                    <div class="skill-pill">
+                        <span>{{ skill.name }}</span>
+                        <span class="skill-level-soft">{{ skill.level }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p style="color:var(--text-soft);">No soft skills added yet.</p>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

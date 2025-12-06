@@ -1,0 +1,55 @@
+{% extends "resume/base.html" %}
+{% block title %}Languages – {{ profile.full_name }}{% endblock %}
+
+{% block content %}
+<style>
+.language-grid {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.language-card {
+    flex: 1 1 240px;
+    padding: 28px;
+    border-radius: var(--radius-lg);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(8px);
+    transition: .25s;
+}
+
+.language-card:hover {
+    border-color: rgba(255,255,255,0.18);
+    transform: translateY(-4px);
+}
+
+.language-name {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--accent-1);
+    letter-spacing: -0.3px;
+}
+
+.language-level {
+    padding: 6px 16px;
+    display: inline-block;
+    font-size: 13px;
+    border-radius: 20px;
+    color: var(--accent-3);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+}
+</style>
+
+<div class="language-grid">
+    {% for lang in languages %}
+    <div class="language-card">
+        <div class="language-name">{{ lang.name }}</div>
+        <div class="language-level">{{ lang.level }}</div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

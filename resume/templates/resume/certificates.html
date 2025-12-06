@@ -1,0 +1,64 @@
+{% extends "resume/base.html" %}
+{% block title %}Certificates – {{ profile.full_name }}{% endblock %}
+
+{% block content %}
+<style>
+.cert-grid {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.cert-card {
+    flex: 1 1 280px;
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(8px);
+    transition: .25s;
+}
+
+.cert-card:hover {
+    border-color: rgba(255,255,255,0.18);
+    transform: translateY(-4px);
+}
+
+.cert-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--accent-1);
+    margin-bottom: 8px;
+}
+
+.cert-issuer {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.cert-link {
+    font-size: 14px;
+    color: var(--accent-3);
+    text-decoration: none;
+}
+</style>
+
+<div class="cert-grid">
+    {% for cert in certificates %}
+    <div class="cert-card">
+        <div class="cert-title">{{ cert.title }}</div>
+        <div class="cert-issuer">{{ cert.issuer }}</div>
+
+        {% if cert.link %}
+        <a href="{{ cert.link }}" target="_blank" class="cert-link">
+            View Certificate
+        </a>
+        {% endif %}
+    </div>
+    {% empty %}
+        <p>No certificates added yet.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

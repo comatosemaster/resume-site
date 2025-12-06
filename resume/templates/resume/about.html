@@ -1,0 +1,219 @@
+{% extends "resume/base.html" %}
+{% block title %}About – {{ profile.full_name }}{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* ----------------------------
+       Spotlight Hero Wrapper
+    -----------------------------*/
+    .hero-v2 {
+        position: relative;
+        padding: 60px 50px;
+        border-radius: var(--radius-lg);
+        background: radial-gradient(circle at 20% 20%, rgba(120,75,255,0.25), rgba(0,0,0,0.25)),
+                    linear-gradient(135deg, rgba(99,102,241,0.12), rgba(168,85,247,0.10));
+        border: 1px solid rgba(255,255,255,0.08);
+        overflow: hidden;
+    }
+
+    .hero-v2::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(168,85,247,0.25), transparent 55%);
+        transition: 0.15s;
+        opacity: .45;
+    }
+
+    /* ----------------------------
+       Typing Title — FIXED
+    -----------------------------*/
+    .typing-title {
+        font-size: 42px;
+        font-weight: 700;
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+        -webkit-background-clip: text;
+        color: transparent;
+
+        /* FIXES OVERFLOW ISSUES */
+        white-space: normal !important;
+        word-break: break-word;
+        line-height: 1.2;
+        overflow-wrap: anywhere;
+
+        margin-bottom: 12px;
+        position: relative;
+    }
+
+    /* Wrapper ensures wrapping and keeps cursor aligned */
+    .typing-wrapper {
+        display: inline-block;
+        max-width: 100%;
+        overflow: hidden;
+        white-space: normal;
+    }
+
+    .typing-cursor {
+        display: inline-block;
+        width: 3px;
+        height: 32px;
+        background: var(--accent-3);
+        animation: blink 0.6s infinite alternate;
+        margin-left: 4px;
+        vertical-align: bottom;
+    }
+
+    @keyframes blink {
+        from { opacity: 1; }
+        to { opacity: 0; }
+    }
+
+    /* ----------------------------
+       Highlights
+    -----------------------------*/
+    .highlight-list {
+        margin-top: 16px;
+        margin-bottom: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        opacity: .85;
+        font-size: 16px;
+    }
+
+    .highlight-item::before {
+        content: "✦";
+        margin-right: 10px;
+        color: var(--accent-3);
+    }
+
+    /* ----------------------------
+       Stats
+    -----------------------------*/
+    .stats-grid {
+        display: flex;
+        gap: 24px;
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+
+    .stat-card {
+        padding: 16px 22px;
+        border-radius: var(--radius-lg);
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.08);
+        backdrop-filter: blur(6px);
+        min-width: 120px;
+        text-align: center;
+        transition: 0.25s;
+    }
+
+    .stat-card:hover {
+        background: rgba(255,255,255,0.12);
+        transform: translateY(-3px);
+    }
+
+    .stat-value {
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--accent-1);
+        margin-bottom: 4px;
+    }
+
+    .stat-label {
+        font-size: 13px;
+        color: var(--text-muted);
+        letter-spacing: .5px;
+    }
+
+</style>
+
+<!-- ==========================
+     HERO V2
+=========================== -->
+<div class="hero-v2">
+
+    <!-- Typing Title WRAPPED PROPERLY -->
+    <div class="typing-title">
+        <div class="typing-wrapper">
+            <span id="typing-output"></span>
+        </div>
+        <span class="typing-cursor"></span>
+    </div>
+
+    <!-- Highlights -->
+    <div class="highlight-list">
+        {% if profile.hero_highlight_1 %}<div class="highlight-item">{{ profile.hero_highlight_1 }}</div>{% endif %}
+        {% if profile.hero_highlight_2 %}<div class="highlight-item">{{ profile.hero_highlight_2 }}</div>{% endif %}
+        {% if profile.hero_highlight_3 %}<div class="highlight-item">{{ profile.hero_highlight_3 }}</div>{% endif %}
+    </div>
+
+    <!-- Description -->
+    <div class="hero-desc">
+        {{ profile.hero_description|default:profile.about }}
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+
+        {% if profile.stat_title_1 %}
+        <div class="stat-card">
+            <div class="stat-value">{{ profile.stat_value_1 }}</div>
+            <div class="stat-label">{{ profile.stat_title_1 }}</div>
+        </div>
+        {% endif %}
+
+        {% if profile.stat_title_2 %}
+        <div class="stat-card">
+            <div class="stat-value">{{ profile.stat_value_2 }}</div>
+            <div class="stat-label">{{ profile.stat_title_2 }}</div>
+        </div>
+        {% endif %}
+
+        {% if profile.stat_title_3 %}
+        <div class="stat-card">
+            <div class="stat-value">{{ profile.stat_value_3 }}</div>
+            <div class="stat-label">{{ profile.stat_title_3 }}</div>
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<!-- ==========================
+     TYPING SCRIPT
+=========================== -->
+<script>
+    const texts = `{{ profile.hero_typing_text|escapejs }}`.split("\n").filter(t => t.trim() !== "");
+    const out = document.getElementById("typing-output");
+
+    let idx = 0, char = 0, deleting = false;
+
+    function typeLoop() {
+        const current = texts[idx];
+
+        if (!deleting) {
+            out.textContent = current.substring(0, char++);
+            if (char > current.length + 8) deleting = true;
+        } else {
+            out.textContent = current.substring(0, char--);
+            if (char < 0) { deleting = false; idx = (idx + 1) % texts.length; }
+        }
+
+        setTimeout(typeLoop, deleting ? 35 : 55);
+    }
+
+    typeLoop();
+
+    /* Spotlight background follows mouse */
+    document.addEventListener("mousemove", e => {
+        document.querySelector(".hero-v2").style.setProperty("--mx", e.clientX + "px");
+        document.querySelector(".hero-v2").style.setProperty("--my", e.clientY + "px");
+    });
+</script>
+
+{% endblock %}
