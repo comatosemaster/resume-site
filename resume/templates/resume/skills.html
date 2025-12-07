@@ -5,31 +5,52 @@
 {% block content %}
 
 <style>
-    .skills-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        align-items: center;
-    }
 
+    /* ---------------------------------------------
+       MODERN PREMIUM SKILL PILL
+    --------------------------------------------- */
     .skill-pill {
         display: flex;
         align-items: center;
         justify-content: center;
 
-        height: 34px;
-        padding: 0 18px;
+        height: 36px;
+        padding: 0 20px;
         line-height: 1;
         font-size: 14px;
 
         border-radius: 999px;
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.1);
+
+        background: rgba(255,255,255,0.07);
+        border: 1px solid rgba(255,255,255,0.18);
+
+        box-shadow:
+            inset 0 0 8px rgba(255,255,255,0.06),
+            0 2px 6px rgba(0,0,0,0.35);
 
         letter-spacing: 0.3px;
         gap: 8px;
         white-space: nowrap;
-        box-sizing: border-box;
+        transition: 0.25s ease;
+    }
+
+    .skill-pill:hover {
+        transform: translateY(-3px) scale(1.04);
+        border-color: var(--accent-1);
+        background: rgba(255,255,255,0.10);
+
+        box-shadow:
+            inset 0 0 10px rgba(255,255,255,0.10),
+            0 4px 12px rgba(0,0,0,0.45),
+            0 0 12px rgba(99,102,241,0.35);
+    }
+
+    /* layout improvements */
+    .skills-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px 18px;
+        align-items: center;
     }
 
     .skill-level-hard {
@@ -43,6 +64,21 @@
         font-size: 12px;
         opacity: .85;
     }
+
+    .skill-group-block {
+        margin-top: 26px;
+        margin-bottom: 30px;
+    }
+
+    .skill-group-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text-muted);
+        margin-bottom: 12px;
+        letter-spacing: 0.3px;
+        text-transform: capitalize;
+    }
+
 </style>
 
 
@@ -60,27 +96,39 @@
 <div class="section">
 
     <!-- HARD SKILLS -->
-    <div style="margin-bottom: 32px;">
+    <div style="margin-bottom: 42px;">
         <h3 class="section-title" style="font-size: 20px; margin-bottom: 12px;">
             Hard Skills
         </h3>
 
-        {% if skills_hard %}
-            <div class="skills-row">
-                {% for skill in skills_hard %}
-                    <div class="skill-pill">
-                        <span>{{ skill.name }}</span>
-                        <span class="skill-level-hard">{{ skill.level }}</span>
+        {% if grouped_hard %}
+            {% for group, skills in grouped_hard.items %}
+                <div class="skill-group-block">
+
+                    <!-- FIXED: Proper display name -->
+                    <div class="skill-group-title">
+                        {{ skills.0.get_skill_group_display }}
                     </div>
-                {% endfor %}
-            </div>
+
+                    <div class="skills-row">
+                        {% for skill in skills %}
+                            <div class="skill-pill">
+                                <span>{{ skill.name }}</span>
+                                <span class="skill-level-hard">{{ skill.level }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            {% endfor %}
         {% else %}
             <p style="color:var(--text-soft);">No hard skills added yet.</p>
         {% endif %}
     </div>
 
-    <!-- SOFT SKILLS -->
-    <div>
+
+    <!-- SOFT SKILLS (NO GROUPS — FLAT LIST) -->
+    <div style="margin-top: 40px;">
         <h3 class="section-title" style="font-size: 20px; margin-bottom: 12px;">
             Soft Skills
         </h3>
@@ -90,7 +138,9 @@
                 {% for skill in skills_soft %}
                     <div class="skill-pill">
                         <span>{{ skill.name }}</span>
-                        <span class="skill-level-soft">{{ skill.level }}</span>
+                        {% if skill.level %}
+                            <span class="skill-level-soft">{{ skill.level }}</span>
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>
@@ -98,6 +148,7 @@
             <p style="color:var(--text-soft);">No soft skills added yet.</p>
         {% endif %}
     </div>
+
 
 </div>
 

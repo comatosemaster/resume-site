@@ -10,6 +10,24 @@
     {% block extra_styles %}{% endblock %}
 
     <style>
+    .page-header {
+        margin-bottom: 26px;
+    }
+
+    .page-title {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        color: var(--text-main);
+    }
+
+    .page-subtitle {
+        font-size: 15px;
+        font-weight: 400;
+        color: var(--text-muted);
+        margin-bottom: 26px;
+        line-height: 1.6;
+    }
     /* =========================================
        COLOR SYSTEM / TOKENS
     ========================================= */
@@ -39,28 +57,6 @@
         --transition: .3s ease;
     }
 
-    /* =========================================
-       PAGE HEADER (TITLE + SUBTITLE)
-    ========================================= */
-    .page-header {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 26px;
-    }
-
-    .page-title {
-        font-size: 32px;
-        font-weight: 700;
-        margin-bottom: 12px; /* spacing between title and subtitle */
-    }
-
-    .page-subtitle {
-        font-size: 15px;
-        color: var(--text-soft); /* soft grey */
-        line-height: 1.6;
-        font-weight: 400;
-    }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
@@ -71,7 +67,7 @@
         padding: 30px;
     }
 
-    /* Background noise & gradients */
+    /* Background */
     body::before,
     body::after {
         content: "";
@@ -152,15 +148,10 @@
         transition: var(--transition);
     }
 
-    .top-chip:hover {
-        background: rgba(255,255,255,0.12);
-        border-color: rgba(255,255,255,0.2);
-    }
-
     .chip-icon { width: 18px; height: 18px; }
 
     /* =========================================
-       MAIN LAYOUT — SIDEBAR + CONTENT
+       LAYOUT: SIDEBAR + CONTENT
     ========================================= */
     .container {
         width: min(1200px, 100%);
@@ -192,18 +183,27 @@
         border: 1px solid rgba(255,255,255,0.1);
     }
 
+    .nav-title {
+        font-size: 15px;
+        color: var(--text-muted);
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+        letter-spacing: 0.5px;
+    }
+
     .nav-list {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 10px;
     }
 
     .nav-item {
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 10px 14px;
-        font-size: var(--fs-sm);
+        padding: 12px 16px;
+        font-size: 16px;
         border-radius: var(--radius-pill);
         background: rgba(255,255,255,0.05);
         border: 1px solid rgba(255,255,255,0.1);
@@ -212,14 +212,17 @@
         transition: var(--transition);
     }
 
+    .nav-icon { width: 18px; height: 18px; }
+
     .nav-item:hover {
         background: rgba(255,255,255,0.12);
         border-color: rgba(255,255,255,0.25);
         transform: translateY(-2px);
     }
 
-    .nav-icon { width: 18px; height: 18px; }
-
+    /* =========================================
+       CONTENT AREA
+    ========================================= */
     .content {
         display: flex;
         flex-direction: column;
@@ -233,14 +236,8 @@
         border: 1px solid rgba(255,255,255,0.08);
     }
 
-    .section-title {
-        font-size: var(--fs-lg);
-        font-weight: 600;
-        margin-bottom: 8px;
-    }
-
     /* =========================================
-       ICON HOVER UPGRADE — SAME AS BEFORE
+       ICON HOVER EFFECTS
     ========================================= */
     .chip-icon,
     .nav-icon {
@@ -250,34 +247,17 @@
     }
 
     .top-chip:hover .chip-icon,
-    .nav-item:hover .nav-icon,
-    .contact-pill:hover svg {
+    .nav-item:hover .nav-icon {
         stroke: var(--accent-3);
         filter: drop-shadow(0 0 4px var(--accent-3));
         opacity: 1;
     }
 
-    .top-chip,
-    .nav-item,
-    .contact-pill {
-        transition: 0.25s ease;
-    }
-
-    .top-chip:hover,
-    .nav-item:hover,
-    .contact-pill:hover {
-        background: rgba(255,255,255,0.12);
-        border-color: rgba(255,255,255,0.25);
-        transform: translateY(-2px);
-    }
-
     /* =========================================
-       MOBILE LAYOUT
+       MOBILE
     ========================================= */
     @media (max-width: 768px) {
-        body {
-            padding: 10px;
-        }
+        body { padding: 10px; }
 
         .top-header {
             flex-direction: column;
@@ -295,23 +275,12 @@
             grid-template-columns: 1fr;
         }
 
-        .section {
-            padding: 20px;
-        }
+        .section { padding: 20px; }
 
-        .content {
-            gap: 20px;
-        }
-
-        /* hide sidebar completely on mobile */
-        .sidebar {
-            display: none;
-        }
+        .sidebar { display: none; } /* Hidden on mobile */
     }
 
-    /* =========================================
-       MOBILE NAV BUTTON (HEADER, TOP-RIGHT)
-    ========================================= */
+    /* MOBILE NAV BUTTON */
     .mobile-nav-button {
         position: absolute;
         right: 18px;
@@ -322,29 +291,17 @@
         background: rgba(255,255,255,0.06);
         border: 1px solid rgba(255,255,255,0.18);
         backdrop-filter: blur(10px);
-        display: none;           /* desktop hidden */
+        display: none;
         justify-content: center;
         align-items: center;
         cursor: pointer;
     }
 
-    .mobile-nav-button svg {
-        stroke: #e5e7eb;
-    }
-
-    .mobile-nav-button:hover {
-        background: rgba(255,255,255,0.16);
-    }
-
     @media (max-width: 768px) {
-        .mobile-nav-button {
-            display: flex;       /* show only on mobile */
-        }
+        .mobile-nav-button { display: flex; }
     }
 
-    /* =========================================
-       MOBILE NAV DRAWER
-    ========================================= */
+    /* MOBILE NAV DRAWER */
     .mobile-nav-drawer {
         position: fixed;
         inset: 0;
@@ -364,9 +321,9 @@
     }
 
     .drawer-panel {
-        width: 70%;
-        max-width: 320px;
-        background: rgba(15,23,42,0.95);
+        width: 75%;
+        max-width: 340px;
+        background: rgba(15,23,42,0.96);
         height: 100%;
         transform: translateX(100%);
         transition: transform .3s ease;
@@ -379,14 +336,15 @@
     }
 
     .drawer-header {
-        padding: 20px 22px;
+        padding: 20px;
         border-bottom: 1px solid rgba(255,255,255,0.12);
         position: relative;
     }
 
     .drawer-title {
         font-size: 18px;
-        font-weight: 600;
+        font-weight: 700;
+        color: var(--text-main);
     }
 
     .drawer-close {
@@ -400,31 +358,26 @@
         cursor: pointer;
     }
 
+    .drawer-section-title {
+        padding: 18px 20px 6px 20px;
+        font-size: 14px;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        font-weight: 600;
+        letter-spacing: 0.4px;
+    }
+
     .drawer-nav {
-        padding: 16px 18px 24px 18px;
         display: flex;
         flex-direction: column;
+        padding: 0 16px 24px 16px;
         gap: 10px;
     }
 
-    .drawer-nav .nav-item {
-        justify-content: center;
-        width: 100%;
-    }
+    .drawer-nav .nav-item { width: 100%; justify-content: flex-start; }
 
-    .nav-title {
-        margin-bottom: 16px;   /* spacing fix */
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--text-muted);
-        letter-spacing: 0.3px;
-    }
-
-    /* ===========================
-       FOOTER
-    =========================== */
+    /* FOOTER */
     .site-footer {
-        width: 100%;
         margin-top: 60px;
         padding: 26px 0;
         text-align: center;
@@ -444,24 +397,7 @@
         );
     }
 
-    .footer-inner {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-    }
-
-    .footer-name {
-        font-size: 14px;
-        color: var(--text-muted);
-        letter-spacing: 0.3px;
-    }
-
-    .footer-copy {
-        font-size: 13px;
-        color: var(--text-soft);
-    }
     </style>
-
 </head>
 
 <body>
@@ -469,7 +405,6 @@
 <div class="noise"></div>
 
 <header class="top-header">
-
     <div class="top-header-left">
         <div class="top-name">{{ profile.full_name }}</div>
         <div class="top-role">{{ profile.title }}</div>
@@ -528,8 +463,7 @@
 
     </div>
 
-    <!-- Mobile hamburger (top-right, mobile only) -->
-    <button id="mobile-nav-button" class="mobile-nav-button" type="button" aria-label="Open navigation">
+    <button id="mobile-nav-button" class="mobile-nav-button" type="button">
         <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" fill="none">
             <path d="M3 6h18M3 12h18M3 18h18" stroke-width="2" stroke-linecap="round"/>
         </svg>
@@ -537,11 +471,18 @@
 
 </header>
 
+
 <div class="container">
 
+    <!-- =========================================
+         SIDEBAR (DESKTOP)
+    ========================================= -->
     <aside class="sidebar">
+
         <div class="card">
-            <div class="nav-title">Navigation</div>
+
+            <!-- PROFESSIONAL -->
+            <div class="nav-title">Professional</div>
             <nav class="nav-list">
 
                 <a class="nav-item" href="{% url 'skills' %}">
@@ -568,6 +509,12 @@
                     </svg>
                     <span>Projects</span>
                 </a>
+
+            </nav>
+
+            <!-- PERSONAL -->
+            <div class="nav-title" style="margin-top:24px;">Personal</div>
+            <nav class="nav-list">
 
                 <a class="nav-item" href="{% url 'education' %}">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -612,9 +559,15 @@
                 </a>
 
             </nav>
+
         </div>
+
     </aside>
 
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================= -->
     <main class="content">
         {% if messages %}
             <div style="margin-bottom:16px;">
@@ -640,30 +593,98 @@
 
 </div>
 
+
 <!-- =========================================
-     MOBILE NAV DRAWER
+     MOBILE NAV DRAWER WITH ICONS (A1)
 ========================================= -->
 <div id="mobile-nav-drawer" class="mobile-nav-drawer">
     <div class="drawer-panel">
+
         <div class="drawer-header">
             <div class="drawer-title">Navigation</div>
             <button id="drawer-close" class="drawer-close" type="button">×</button>
         </div>
+
+        <!-- PROFESSIONAL -->
+        <div class="drawer-section-title">Professional</div>
         <nav class="drawer-nav">
-            <a class="nav-item" href="{% url 'skills' %}">Skills</a>
-            <a class="nav-item" href="{% url 'experience' %}">Experience</a>
-            <a class="nav-item" href="{% url 'projects' %}">Projects</a>
-            <a class="nav-item" href="{% url 'education' %}">Education</a>
-            <a class="nav-item" href="{% url 'certificates' %}">Certificates</a>
-            <a class="nav-item" href="{% url 'languages' %}">Languages</a>
-            <a class="nav-item" href="{% url 'contact' %}">Contact Me</a>
-            <a class="nav-item" href="{% url 'about' %}">About</a>
+
+            <a class="nav-item" href="{% url 'skills' %}">
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2l4 7H8l4-7zM4 22h16M4 16h16"/></svg>
+                Skills
+            </a>
+
+            <a class="nav-item" href="{% url 'experience' %}">
+                <svg class="nav-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                Experience
+            </a>
+
+            <a class="nav-item" href="{% url 'projects' %}">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="7" height="7" rx="1"/>
+                    <rect x="14" y="3" width="7" height="7" rx="1"/>
+                    <rect x="14" y="14" width="7" height="7" rx="1"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1"/>
+                </svg>
+                Projects
+            </a>
+
         </nav>
+
+        <!-- PERSONAL -->
+        <div class="drawer-section-title">Personal</div>
+        <nav class="drawer-nav">
+
+            <a class="nav-item" href="{% url 'education' %}">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M3 8l9-4 9 4-9 4-9-4z"/>
+                    <path d="M7 10v5a5 5 0 0 0 10 0v-5"/>
+                </svg>
+                Education
+            </a>
+
+            <a class="nav-item" href="{% url 'certificates' %}">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="10" r="4"/>
+                    <path d="M9.5 13.5L8 20l4-2 4 2-1.5-6.5"/>
+                </svg>
+                Certificates
+            </a>
+
+            <a class="nav-item" href="{% url 'languages' %}">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M5 12h14"/>
+                    <path d="M12 3a14 14 0 0 1 0 18"/>
+                    <path d="M12 3a14 14 0 0 0 0 18"/>
+                </svg>
+                Languages
+            </a>
+
+            <a class="nav-item" href="{% url 'contact' %}">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <rect x="3" y="5" width="18" height="14" rx="2"/>
+                    <path d="M3 7l9 6 9-6"/>
+                </svg>
+                Contact Me
+            </a>
+
+            <a class="nav-item" href="{% url 'about' %}">
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="3.2"/>
+                    <path d="M5.5 20a6.5 6.5 0 0 1 13 0"/>
+                </svg>
+                About
+            </a>
+
+        </nav>
+
     </div>
 </div>
 
+
 <!-- =========================================
-     MOBILE MENU JAVASCRIPT
+     MOBILE NAV JS
 ========================================= -->
 <script>
 const drawer = document.getElementById("mobile-nav-drawer");
@@ -673,11 +694,8 @@ const closeBtn = document.getElementById("drawer-close");
 if (openBtn && drawer && closeBtn) {
     openBtn.addEventListener("click", () => drawer.classList.add("open"));
     closeBtn.addEventListener("click", () => drawer.classList.remove("open"));
-
     drawer.addEventListener("click", (e) => {
-        if (e.target === drawer) {
-            drawer.classList.remove("open");
-        }
+        if (e.target === drawer) drawer.classList.remove("open");
     });
 }
 </script>

@@ -5,8 +5,9 @@ from .models import ContactMessage
 
 
 class SkillAdmin(admin.ModelAdmin):
-    list_display = ("name", "category", "profile")
-    list_filter = ("category",)
+    list_display = ("name", "category", "skill_group", "order")
+    list_editable = ("order",)
+    ordering = ("skill_group", "order")
 
 
 class ExperienceAdmin(admin.ModelAdmin):

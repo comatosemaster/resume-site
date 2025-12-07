@@ -17,14 +17,42 @@ def about_view(request):
     profile = get_profile()
     return render(request, "resume/about.html", {"profile": profile})
 
-
 def skills_view(request):
     profile = get_profile()
-    skills_hard = profile.skills.filter(category="hard")
-    skills_soft = profile.skills.filter(category="soft")
+
+    # Fetch all hard skills
+    hard_skills = profile.skills.filter(category="hard").order_by("name")
+
+    # Group them by skill_group
+    grouped_hard = {}
+    for skill in hard_skills:
+        group = skill.skill_group or "Other"
+        grouped_hard.setdefault(group, []).append(skill)
+
+    # CUSTOM ORDER for groups
+    GROUP_ORDER = [
+        "Programming & Scripting",
+        "Systems & Platforms",
+        "Testing Methodologies",
+        "Testing Tools",
+        "Additional",
+        "Other",
+    ]
+
+    # Sort groups by GROUP_ORDER
+    grouped_hard = dict(
+        sorted(
+            grouped_hard.items(),
+            key=lambda x: GROUP_ORDER.index(x[0]) if x[0] in GROUP_ORDER else 999
+        )
+    )
+
+    # Soft skills — no grouping, alphabetical
+    skills_soft = profile.skills.filter(category="soft").order_by("name")
+
     return render(request, "resume/skills.html", {
         "profile": profile,
-        "skills_hard": skills_hard,
+        "grouped_hard": grouped_hard,
         "skills_soft": skills_soft,
     })
 
@@ -44,6 +72,7 @@ def projects_view(request):
         "projects": profile.projects.all()
     })
 
+
 def education_view(request):
     profile = Profile.objects.first()
     education = Education.objects.all().order_by('-start_year')
@@ -51,6 +80,7 @@ def education_view(request):
         "profile": profile,
         "education": education,
     })
+
 
 def certificates_view(request):
     profile = Profile.objects.first()
@@ -61,6 +91,7 @@ def certificates_view(request):
         "certificates": certificates,
     })
 
+
 def languages_view(request):
     profile = Profile.objects.first()
     languages = Language.objects.all().order_by('-level')
@@ -68,6 +99,7 @@ def languages_view(request):
         "profile": profile,
         "languages": languages,
     })
+
 
 def contact_view(request):
     profile = Profile.objects.first()
@@ -79,14 +111,12 @@ def contact_view(request):
             email = form.cleaned_data["email"]
             message_text = form.cleaned_data["message"]
 
-            # Save to DB
             ContactMessage.objects.create(
                 name=name,
                 email=email,
                 message=message_text,
             )
 
-            # Send email to you
             subject = f"New message from {name} via portfolio"
             full_message = (
                 f"From: {name} <{email}>\n\n"
@@ -96,7 +126,7 @@ def contact_view(request):
             send_mail(
                 subject,
                 full_message,
-                None,  # uses DEFAULT_FROM_EMAIL
+                None,
                 ["heyitsdavit@gmail.com"],
             )
 

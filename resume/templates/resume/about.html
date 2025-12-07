@@ -108,6 +108,7 @@
     flex-direction: column;
     gap: 10px;
     margin-top: 14px;
+    margin-bottom: 16px;
 }
 
 .about-highlights div {
@@ -124,6 +125,91 @@
     border-radius: 50%;
     background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
     box-shadow: 0 0 6px var(--accent-3);
+}
+
+/* ================================
+   CURRENT FOCUS INDICATOR
+   (under photo/highlights)
+================================*/
+/* ================================
+   CURRENT FOCUS INDICATOR — SEPARATE BOX
+================================*/
+.focus-card {
+    margin-top: 26px; /* increased spacing from photo box */
+    padding: 22px 24px;
+    border-radius: 22px;
+
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(16px);
+
+    box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+    transition: 0.35s ease;
+}
+
+.focus-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255,255,255,0.22);
+}
+
+.focus-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.focus-indicator-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: radial-gradient(circle, #22c55e, #15803d);
+    box-shadow: 0 0 10px rgba(34,197,94,0.8);
+}
+
+.focus-label {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* List */
+.focus-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Tag + text pair */
+.focus-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* NEW AUTO-RESIZING TAG DESIGN */
+.focus-tag {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    padding: 4px 10px;
+    border-radius: 999px;
+
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    white-space: nowrap; /* prevents wider tags from breaking layout */
+}
+
+.focus-text {
+    font-size: 14px;
+    color: var(--text-main);
+    opacity: 0.94;
 }
 
 /* ================================
@@ -246,6 +332,42 @@
             {% if profile.hero_highlight_2 %}<div>{{ profile.hero_highlight_2 }}</div>{% endif %}
             {% if profile.hero_highlight_3 %}<div>{{ profile.hero_highlight_3 }}</div>{% endif %}
         </div>
+
+        {# CURRENT FOCUS INDICATOR #}
+        {% if profile.focus_now or profile.focus_next or profile.focus_later %}
+        <div class="focus-card">
+            <div class="focus-card-header">
+                <span class="focus-indicator-dot"></span>
+                <span class="focus-label">Current Focus</span>
+            </div>
+
+            <div class="focus-items">
+
+                {% if profile.focus_now %}
+                <div class="focus-item">
+                    <span class="focus-tag">Now</span>
+                    <span class="focus-text">{{ profile.focus_now }}</span>
+                </div>
+                {% endif %}
+
+                {% if profile.focus_next %}
+                <div class="focus-item">
+                    <span class="focus-tag">Next</span>
+                    <span class="focus-text">{{ profile.focus_next }}</span>
+                </div>
+                {% endif %}
+
+                {% if profile.focus_later %}
+                <div class="focus-item">
+                    <span class="focus-tag">Future</span>
+                    <span class="focus-text">{{ profile.focus_later }}</span>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+        {% endif %}
+
 
     </div>
 

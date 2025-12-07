@@ -6,8 +6,8 @@
 <style>
 
     .projects-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        display: flex;
+        flex-direction: column;
         gap: 26px;
         margin-top: 20px;
     }
@@ -61,17 +61,20 @@
         color: var(--text-muted);
         margin-bottom: 18px;
 
+        /* Allow long descriptions to wrap nicely */
         overflow-wrap: break-word;
         word-wrap: break-word;
         hyphens: auto;
     }
 
+    /* Buttons row */
     .project-links {
         display: flex;
         gap: 10px;
         margin-top: auto;
     }
 
+    /* Base button */
     .proj-btn {
         padding: 8px 14px;
         font-size: 14px;
@@ -84,6 +87,7 @@
         transition: 0.25s ease;
     }
 
+    /* GitHub button */
     .btn-github {
         background: rgba(99,102,241,0.25);
         border: 1px solid rgba(99,102,241,0.45);
@@ -93,6 +97,7 @@
         transform: translateY(-2px);
     }
 
+    /* Demo / YouTube button */
     .btn-demo {
         background: rgba(239,68,68,0.3);
         border: 1px solid rgba(239,68,68,0.5);
@@ -113,18 +118,13 @@
 
 {% block content %}
 
-<!-- =========================================
-     PAGE HEADER (GLOBAL CONSISTENT STYLE)
-========================================= -->
-<div class="page-header">
-    <div class="page-title">Projects</div>
-    <div class="page-subtitle">
-        A collection of projects highlighting my skills, creativity, and growth as an engineer.
-    </div>
-</div>
-
-
 <div class="section">
+    <div class="page-header">
+        <div class="page-title">Projects</div>
+        <div class="page-subtitle">
+            A collection of projects highlighting my skills, creativity, and growth as an engineer.
+        </div>
+    </div>
 
     {% if projects %}
         <div class="projects-grid">
@@ -132,17 +132,17 @@
             {% for project in projects %}
                 <div class="project-card">
 
-                    <!-- TITLE -->
+                    <!-- Title -->
                     <div class="project-title">
                         {{ project.name }}
                     </div>
 
-                    <!-- DESCRIPTION -->
+                    <!-- Description -->
                     <div class="project-desc">
                         {{ project.description|linebreaksbr }}
                     </div>
 
-                    <!-- BUTTONS -->
+                    <!-- Action Buttons -->
                     <div class="project-links">
 
                         {% if project.github %}

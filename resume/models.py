@@ -38,6 +38,10 @@ class Profile(models.Model):
 
     photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
 
+    focus_now = models.CharField(max_length=120, blank=True)
+    focus_next = models.CharField(max_length=120, blank=True)
+    focus_later = models.CharField(max_length=120, blank=True)
+
     def __str__(self):
         return self.full_name
 
@@ -48,13 +52,26 @@ class Skill(models.Model):
         ("soft", "Soft Skill"),
     ]
 
+    GROUP_CHOICES = [
+        ("programming", "Programming & Scripting"),
+        ("testing_tools", "Testing Tools"),
+        ("testing_methods", "Testing Methodologies"),
+        ("systems_platforms", "Systems & Platforms"),
+        ("domain_expertise", "Domain Expertise"),
+        ("additional", "Additional"),
+        ("soft_general", "Soft Skills"),
+    ]
+
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="skills")
     name = models.CharField(max_length=100)
     level = models.CharField(max_length=50, blank=True)
     category = models.CharField(max_length=10, choices=CATEGORY_CHOICES)
+    skill_group = models.CharField(max_length=50, choices=GROUP_CHOICES, blank=True)
+    order = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f"{self.name} ({self.category})"
+
 
 
 class Experience(models.Model):
