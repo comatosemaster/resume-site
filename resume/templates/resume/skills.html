@@ -9,7 +9,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
-        align-items: center; /* FIXES VERTICAL ALIGNMENT */
+        align-items: center;
     }
 
     .skill-pill {
@@ -17,9 +17,9 @@
         align-items: center;
         justify-content: center;
 
-        height: 34px;               /* <-- HARD LOCK height */
-        padding: 0 18px;            /* <-- No vertical padding */
-        line-height: 1;             /* <-- Consistent baseline */
+        height: 34px;
+        padding: 0 18px;
+        line-height: 1;
         font-size: 14px;
 
         border-radius: 999px;
@@ -46,11 +46,18 @@
 </style>
 
 
-<div class="section">
-    <h2 class="section-title" style="font-size: 40px;">Skills</h2>
-    <p class="section-sub">
+<!-- =========================================
+     PAGE HEADER
+========================================= -->
+<div class="page-header">
+    <div class="page-title">Skills</div>
+    <div class="page-subtitle">
         A collection of my technical and soft skills, maintained through continuous learning.
-    </p>
+    </div>
+</div>
+
+
+<div class="section">
 
     <!-- HARD SKILLS -->
     <div style="margin-bottom: 32px;">

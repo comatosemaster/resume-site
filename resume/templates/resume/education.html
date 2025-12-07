@@ -61,18 +61,34 @@
     }
 </style>
 
-<div class="edu-wrapper">
 
-    {% for edu in education %}
-    <div class="edu-card">
-        <div class="edu-title">{{ edu.degree }}</div>
-        <div class="edu-school">{{ edu.school }}</div>
-        <div class="edu-dates">{{ edu.start_year }} – {{ edu.end_year }}</div>
-        <div class="edu-desc">{{ edu.description }}</div>
+<!-- =========================================
+     PAGE HEADER (GLOBAL CONSISTENCY)
+========================================= -->
+<div class="page-header">
+    <div class="page-title">Education</div>
+    <div class="page-subtitle">
+        My academic background and formal studies that shaped my knowledge and technical foundation.
     </div>
-    {% empty %}
-        <p style="opacity:.6;">No education added yet.</p>
-    {% endfor %}
+</div>
+
+
+<div class="section">
+
+    <div class="edu-wrapper">
+
+        {% for edu in education %}
+            <div class="edu-card">
+                <div class="edu-title">{{ edu.degree }}</div>
+                <div class="edu-school">{{ edu.school }}</div>
+                <div class="edu-dates">{{ edu.start_year }} – {{ edu.end_year }}</div>
+                <div class="edu-desc">{{ edu.description }}</div>
+            </div>
+        {% empty %}
+            <p style="opacity:.6;">No education added yet.</p>
+        {% endfor %}
+
+    </div>
 
 </div>
 

@@ -2,15 +2,15 @@
 {% block title %}Languages – {{ profile.full_name }}{% endblock %}
 
 {% block content %}
+
 <style>
 .language-grid {
     display: flex;
+    flex-direction: column; /* ONE CARD PER LINE */
     gap: 24px;
-    flex-wrap: wrap;
 }
 
 .language-card {
-    flex: 1 1 240px;
     padding: 28px;
     border-radius: var(--radius-lg);
     background: rgba(255,255,255,0.04);
@@ -43,13 +43,31 @@
 }
 </style>
 
-<div class="language-grid">
-    {% for lang in languages %}
-    <div class="language-card">
-        <div class="language-name">{{ lang.name }}</div>
-        <div class="language-level">{{ lang.level }}</div>
+
+<!-- =========================================
+     PAGE HEADER (CONSISTENT WITH ALL PAGES)
+========================================= -->
+<div class="page-header">
+    <div class="page-title">Languages</div>
+    <div class="page-subtitle">
+        Languages I use personally and professionally, along with my proficiency levels.
     </div>
-    {% endfor %}
+</div>
+
+
+<div class="section">
+
+    <div class="language-grid">
+        {% for lang in languages %}
+            <div class="language-card">
+                <div class="language-name">{{ lang.name }}</div>
+                <div class="language-level">{{ lang.level }}</div>
+            </div>
+        {% empty %}
+            <p style="color:var(--text-soft);">No languages added yet.</p>
+        {% endfor %}
+    </div>
+
 </div>
 
 {% endblock %}

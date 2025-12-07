@@ -33,6 +33,11 @@ class Profile(models.Model):
     stat_title_3 = models.CharField(max_length=120, blank=True)
     stat_value_3 = models.CharField(max_length=50, blank=True)
 
+    stat_title_4 = models.CharField(max_length=120, blank=True)
+    stat_value_4 = models.CharField(max_length=50, blank=True)
+
+    photo = models.ImageField(upload_to='profile_photos/', blank=True, null=True)
+
     def __str__(self):
         return self.full_name
 

@@ -1,219 +1,298 @@
 {% extends "resume/base.html" %}
+{% load static %}
 {% block title %}About – {{ profile.full_name }}{% endblock %}
 
 {% block content %}
 
 <style>
 
-    /* ----------------------------
-       Spotlight Hero Wrapper
-    -----------------------------*/
-    .hero-v2 {
-        position: relative;
-        padding: 60px 50px;
-        border-radius: var(--radius-lg);
-        background: radial-gradient(circle at 20% 20%, rgba(120,75,255,0.25), rgba(0,0,0,0.25)),
-                    linear-gradient(135deg, rgba(99,102,241,0.12), rgba(168,85,247,0.10));
-        border: 1px solid rgba(255,255,255,0.08);
-        overflow: hidden;
+/* ================================
+   PAGE HEADER
+================================*/
+.page-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.page-subtitle {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 26px;
+}
+
+/* ================================
+   LAYOUT
+================================*/
+.about-grid {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 26px;
     }
+}
 
-    .hero-v2::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(168,85,247,0.25), transparent 55%);
-        transition: 0.15s;
-        opacity: .45;
-    }
+/* ================================
+   LEFT COLUMN — PHOTO + BASICS
+================================*/
+.about-photo-wrapper {
+    position: relative;
+    padding: 26px;
+    border-radius: var(--radius-lg);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    backdrop-filter: blur(14px);
+    overflow: hidden;
+    transition: 0.35s ease;
+}
 
-    /* ----------------------------
-       Typing Title — FIXED
-    -----------------------------*/
-    .typing-title {
-        font-size: 42px;
-        font-weight: 700;
-        background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-        -webkit-background-clip: text;
-        color: transparent;
+.about-photo-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(
+        135deg,
+        rgba(99,102,241,0.6),
+        rgba(168,85,247,0.55),
+        rgba(34,211,238,0.5)
+    );
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: .55;
+    transition: 0.35s ease;
+}
 
-        /* FIXES OVERFLOW ISSUES */
-        white-space: normal !important;
-        word-break: break-word;
-        line-height: 1.2;
-        overflow-wrap: anywhere;
+.about-photo-wrapper:hover::before {
+    opacity: 1;
+}
 
-        margin-bottom: 12px;
-        position: relative;
-    }
+.about-photo {
+    width: 100%;
+    aspect-ratio: 1/1.15;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    margin-bottom: 18px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.45);
+    transition: .35s ease;
+}
 
-    /* Wrapper ensures wrapping and keeps cursor aligned */
-    .typing-wrapper {
-        display: inline-block;
-        max-width: 100%;
-        overflow: hidden;
-        white-space: normal;
-    }
+.about-photo-wrapper:hover .about-photo {
+    transform: scale(1.02);
+}
 
-    .typing-cursor {
-        display: inline-block;
-        width: 3px;
-        height: 32px;
-        background: var(--accent-3);
-        animation: blink 0.6s infinite alternate;
-        margin-left: 4px;
-        vertical-align: bottom;
-    }
+.about-small-name {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
 
-    @keyframes blink {
-        from { opacity: 1; }
-        to { opacity: 0; }
-    }
+.about-small-role {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+}
 
-    /* ----------------------------
-       Highlights
-    -----------------------------*/
-    .highlight-list {
-        margin-top: 16px;
-        margin-bottom: 24px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        opacity: .85;
-        font-size: 16px;
-    }
+.about-highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+}
 
-    .highlight-item::before {
-        content: "✦";
-        margin-right: 10px;
-        color: var(--accent-3);
-    }
+.about-highlights div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
 
-    /* ----------------------------
-       Stats
-    -----------------------------*/
+.about-highlights div::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+    box-shadow: 0 0 6px var(--accent-3);
+}
+
+/* ================================
+   RIGHT COLUMN — BIO
+================================*/
+.about-bio-box {
+    background: rgba(255,255,255,0.04);
+    padding: 34px;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(16px);
+    box-shadow: inset 0 0 20px rgba(255,255,255,0.03);
+    transition: .35s ease;
+}
+
+.about-bio-title {
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 16px;
+}
+
+.about-bio-text {
+    font-size: 16px;
+    line-height: 1.7;
+    opacity: .92;
+    margin-bottom: 30px;
+}
+
+/* ================================
+   NEW MODERN 2×2 STAT GRID
+================================*/
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(160px, 1fr));
+    gap: 20px;
+}
+
+@media (max-width: 600px) {
     .stats-grid {
-        display: flex;
-        gap: 24px;
-        margin-top: 30px;
-        flex-wrap: wrap;
+        grid-template-columns: 1fr;
     }
+}
 
-    .stat-card {
-        padding: 16px 22px;
-        border-radius: var(--radius-lg);
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.08);
-        backdrop-filter: blur(6px);
-        min-width: 120px;
-        text-align: center;
-        transition: 0.25s;
-    }
+.stat-card {
+    position: relative;
+    padding: 18px 20px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(14px);
+    text-align: center;
+    overflow: hidden;
+    transition: .25s ease;
+}
 
-    .stat-card:hover {
-        background: rgba(255,255,255,0.12);
-        transform: translateY(-3px);
-    }
+.stat-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+    opacity: 0.55;
+}
 
-    .stat-value {
-        font-size: 26px;
-        font-weight: 700;
-        color: var(--accent-1);
-        margin-bottom: 4px;
-    }
+.stat-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,0.25);
+}
 
-    .stat-label {
-        font-size: 13px;
-        color: var(--text-muted);
-        letter-spacing: .5px;
-    }
+.stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent-1);
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+}
 
 </style>
 
-<!-- ==========================
-     HERO V2
-=========================== -->
-<div class="hero-v2">
 
-    <!-- Typing Title WRAPPED PROPERLY -->
-    <div class="typing-title">
-        <div class="typing-wrapper">
-            <span id="typing-output"></span>
-        </div>
-        <span class="typing-cursor"></span>
+<!-- =========================================
+     PAGE HEADER
+========================================= -->
+<div class="page-header">
+    <div class="page-title">About</div>
+    <div class="page-subtitle">
+        A short introduction about me — personally and professionally.
     </div>
+</div>
 
-    <!-- Highlights -->
-    <div class="highlight-list">
-        {% if profile.hero_highlight_1 %}<div class="highlight-item">{{ profile.hero_highlight_1 }}</div>{% endif %}
-        {% if profile.hero_highlight_2 %}<div class="highlight-item">{{ profile.hero_highlight_2 }}</div>{% endif %}
-        {% if profile.hero_highlight_3 %}<div class="highlight-item">{{ profile.hero_highlight_3 }}</div>{% endif %}
-    </div>
 
-    <!-- Description -->
-    <div class="hero-desc">
-        {{ profile.hero_description|default:profile.about }}
-    </div>
+<!-- =========================================
+     TWO-COLUMN LAYOUT
+========================================= -->
+<div class="section about-grid">
 
-    <!-- Stats -->
-    <div class="stats-grid">
+    <!-- LEFT COLUMN -->
+    <div class="about-photo-wrapper">
 
-        {% if profile.stat_title_1 %}
-        <div class="stat-card">
-            <div class="stat-value">{{ profile.stat_value_1 }}</div>
-            <div class="stat-label">{{ profile.stat_title_1 }}</div>
-        </div>
+        {% if profile.photo %}
+            <img src="{{ profile.photo.url }}" class="about-photo">
+        {% else %}
+            <img src="{% static 'resume/images/default-photo.png' %}" class="about-photo">
         {% endif %}
 
-        {% if profile.stat_title_2 %}
-        <div class="stat-card">
-            <div class="stat-value">{{ profile.stat_value_2 }}</div>
-            <div class="stat-label">{{ profile.stat_title_2 }}</div>
-        </div>
-        {% endif %}
+        <div class="about-small-name">{{ profile.full_name }}</div>
+        <div class="about-small-role">{{ profile.title }}</div>
 
-        {% if profile.stat_title_3 %}
-        <div class="stat-card">
-            <div class="stat-value">{{ profile.stat_value_3 }}</div>
-            <div class="stat-label">{{ profile.stat_title_3 }}</div>
+        <div class="about-highlights">
+            {% if profile.hero_highlight_1 %}<div>{{ profile.hero_highlight_1 }}</div>{% endif %}
+            {% if profile.hero_highlight_2 %}<div>{{ profile.hero_highlight_2 }}</div>{% endif %}
+            {% if profile.hero_highlight_3 %}<div>{{ profile.hero_highlight_3 }}</div>{% endif %}
         </div>
-        {% endif %}
+
+    </div>
+
+
+    <!-- RIGHT COLUMN -->
+    <div class="about-bio-box">
+
+        <div class="about-bio-title">Who I Am</div>
+
+        <div class="about-bio-text">
+            {{ profile.hero_description|default:profile.about }}
+        </div>
+
+        <div class="stats-grid">
+
+            {% if profile.stat_title_1 %}
+            <div class="stat-card">
+                <div class="stat-value">{{ profile.stat_value_1 }}</div>
+                <div class="stat-label">{{ profile.stat_title_1 }}</div>
+            </div>
+            {% endif %}
+
+            {% if profile.stat_title_2 %}
+            <div class="stat-card">
+                <div class="stat-value">{{ profile.stat_value_2 }}</div>
+                <div class="stat-label">{{ profile.stat_title_2 }}</div>
+            </div>
+            {% endif %}
+
+            {% if profile.stat_title_3 %}
+            <div class="stat-card">
+                <div class="stat-value">{{ profile.stat_value_3 }}</div>
+                <div class="stat-label">{{ profile.stat_title_3 }}</div>
+            </div>
+            {% endif %}
+
+            {% if profile.stat_title_4 %}
+            <div class="stat-card">
+                <div class="stat-value">{{ profile.stat_value_4 }}</div>
+                <div class="stat-label">{{ profile.stat_title_4 }}</div>
+            </div>
+            {% endif %}
+
+        </div>
 
     </div>
 
 </div>
-
-
-<!-- ==========================
-     TYPING SCRIPT
-=========================== -->
-<script>
-    const texts = `{{ profile.hero_typing_text|escapejs }}`.split("\n").filter(t => t.trim() !== "");
-    const out = document.getElementById("typing-output");
-
-    let idx = 0, char = 0, deleting = false;
-
-    function typeLoop() {
-        const current = texts[idx];
-
-        if (!deleting) {
-            out.textContent = current.substring(0, char++);
-            if (char > current.length + 8) deleting = true;
-        } else {
-            out.textContent = current.substring(0, char--);
-            if (char < 0) { deleting = false; idx = (idx + 1) % texts.length; }
-        }
-
-        setTimeout(typeLoop, deleting ? 35 : 55);
-    }
-
-    typeLoop();
-
-    /* Spotlight background follows mouse */
-    document.addEventListener("mousemove", e => {
-        document.querySelector(".hero-v2").style.setProperty("--mx", e.clientX + "px");
-        document.querySelector(".hero-v2").style.setProperty("--my", e.clientY + "px");
-    });
-</script>
 
 {% endblock %}

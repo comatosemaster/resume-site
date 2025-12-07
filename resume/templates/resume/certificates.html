@@ -5,12 +5,11 @@
 <style>
 .cert-grid {
     display: flex;
+    flex-direction: column;
     gap: 24px;
-    flex-wrap: wrap;
 }
 
 .cert-card {
-    flex: 1 1 280px;
     padding: 24px;
     border-radius: var(--radius-lg);
     background: rgba(255,255,255,0.04);
@@ -44,21 +43,37 @@
 }
 </style>
 
-<div class="cert-grid">
-    {% for cert in certificates %}
-    <div class="cert-card">
-        <div class="cert-title">{{ cert.title }}</div>
-        <div class="cert-issuer">{{ cert.issuer }}</div>
 
-        {% if cert.link %}
-        <a href="{{ cert.link }}" target="_blank" class="cert-link">
-            View Certificate
-        </a>
-        {% endif %}
+<!-- =========================================
+     PAGE HEADER (GLOBAL CONSISTENCY)
+========================================= -->
+<div class="page-header">
+    <div class="page-title">Certificates</div>
+    <div class="page-subtitle">
+        Courses and certifications that reflect my dedication to continuous learning and skill development.
     </div>
-    {% empty %}
-        <p>No certificates added yet.</p>
-    {% endfor %}
+</div>
+
+
+<div class="section">
+
+    <div class="cert-grid">
+        {% for cert in certificates %}
+            <div class="cert-card">
+                <div class="cert-title">{{ cert.title }}</div>
+                <div class="cert-issuer">{{ cert.issuer }}</div>
+
+                {% if cert.link %}
+                    <a href="{{ cert.link }}" target="_blank" class="cert-link">
+                        View Certificate
+                    </a>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p style="color:var(--text-soft);">No certificates added yet.</p>
+        {% endfor %}
+    </div>
+
 </div>
 
 {% endblock %}
