@@ -18,7 +18,6 @@ urlpatterns = [
     path("animes/", views.favorite_animes, name="animes"),
     path("movies/", views.favorite_movies, name="movies"),
     path("bands/", views.favorite_bands, name="bands"),
-    path("test-email/", views.test_email),
 ]
 
 if settings.DEBUG:
