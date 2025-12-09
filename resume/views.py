@@ -8,6 +8,7 @@ from django.contrib import messages
 from .forms import ContactForm
 from .models import ContactMessage, Profile
 from .models import FavoriteItem
+import traceback
 
 
 def get_profile():
@@ -178,11 +179,12 @@ def test_email(request):
     try:
         send_mail(
             "Test from Railway",
-            "If you see this email, SMTP works.",
+            "If you get this email, SMTP works.",
             None,
             ["heyitsdavit@gmail.com"],
             fail_silently=False,
         )
         return HttpResponse("OK: Email sent")
     except Exception as e:
-        return HttpResponse(f"ERROR: {e}")
+        tb = traceback.format_exc()
+        return HttpResponse(f"<pre>{tb}</pre>")
