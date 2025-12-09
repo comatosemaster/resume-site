@@ -26,7 +26,12 @@ SECRET_KEY = 'django-insecure-b7g1v4vrbk0(4@pkg)io$gvr@2wvgc$j*+tv&lob2e%of6nviu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "resume-site-production.up.railway.app",
+    "resume-site-2p99.onrender.com",
+]
 
 
 # Application definition
@@ -109,6 +114,10 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")          # your Gmail
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")     # NOT your normal password!
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://resume-site-production.up.railway.app",
+]
 
 
 
