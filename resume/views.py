@@ -125,6 +125,7 @@ def contact_view(request):
             email = data["email"]
             message = data["message"]
 
+            print("RAILWAY ENV KEY:", os.environ.get("RESEND_API"))
             resend.api_key = os.environ.get("RESEND_API")
 
             html_content = f"""
