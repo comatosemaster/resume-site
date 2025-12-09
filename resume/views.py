@@ -115,6 +115,8 @@ def languages_view(request):
     })
 
 def contact_view(request):
+    profile = get_profile()
+
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -151,7 +153,10 @@ def contact_view(request):
     else:
         form = ContactForm()
 
-    return render(request, "resume/contact.html", {"form": form})
+    return render(request, "resume/contact.html", {
+        "profile": profile,
+        "form": form,
+    })
 
 
 def favorite_animes(request):
