@@ -42,6 +42,13 @@ class Profile(models.Model):
     focus_next = models.CharField(max_length=120, blank=True)
     focus_later = models.CharField(max_length=120, blank=True)
 
+    resume_pdf = models.FileField(
+        upload_to="resumes/",
+        blank=True,
+        null=True,
+        help_text="Upload your PDF resume"
+    )
+
     def __str__(self):
         return self.full_name
 
@@ -142,3 +149,20 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return f"{self.name} – {self.email} ({self.created_at:%Y-%m-%d})"
+
+class FavoriteItem(models.Model):
+    CATEGORY_CHOICES = [
+        ('anime', 'Anime'),
+        ('movie', 'Movie'),
+        ('band', 'Band'),
+    ]
+
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to="fun_items/", blank=True, null=True)
+
+    year = models.CharField(max_length=10, blank=True, null=True)  # NEW
+    description = models.TextField(blank=True, null=True)
+
+def __str__(self):
+        return f"{self.title} ({self.get_category_display()})"

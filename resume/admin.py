@@ -1,7 +1,9 @@
 from django.contrib import admin
-from .models import Profile, Skill, Experience, Project
-from .models import Education, Certificate, Language
-from .models import ContactMessage
+from .models import (
+    Profile, Skill, Experience, Project,
+    Education, Certificate, Language,
+    ContactMessage, FavoriteItem
+)
 
 
 class SkillAdmin(admin.ModelAdmin):
@@ -31,3 +33,10 @@ admin.site.register(Language)
 class ContactMessageAdmin(admin.ModelAdmin):
     list_display = ("name", "email", "created_at")
     ordering = ("-created_at",)
+
+@admin.register(FavoriteItem)
+class FavoriteItemAdmin(admin.ModelAdmin):
+    list_display = ("title", "category", "year")
+    list_filter = ("category",)
+    search_fields = ("title", "description")
+

@@ -14,6 +14,10 @@ urlpatterns = [
     path('certificates/', views.certificates_view, name='certificates'),
     path('languages/', views.languages_view, name='languages'),
     path("contact/", views.contact_view, name="contact"),
+
+    path("animes/", views.favorite_animes, name="animes"),
+    path("movies/", views.favorite_movies, name="movies"),
+    path("bands/", views.favorite_bands, name="bands"),
 ]
 
 if settings.DEBUG:

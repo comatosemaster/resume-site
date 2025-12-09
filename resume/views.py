@@ -7,6 +7,7 @@ from django.contrib import messages
 
 from .forms import ContactForm
 from .models import ContactMessage, Profile
+from .models import FavoriteItem
 
 
 def get_profile():
@@ -138,4 +139,34 @@ def contact_view(request):
     return render(request, "resume/contact.html", {
         "profile": profile,
         "form": form,
+    })
+
+from django.shortcuts import render
+from .models import FavoriteItem
+
+
+def favorite_animes(request):
+    profile = get_profile()
+    animes = FavoriteItem.objects.filter(category__iexact="anime")
+    return render(request, "resume/animes.html", {
+        "profile": profile,
+        "animes": animes,
+    })
+
+
+def favorite_movies(request):
+    profile = get_profile()
+    movies = FavoriteItem.objects.filter(category__iexact="movie")
+    return render(request, "resume/movies.html", {
+        "profile": profile,
+        "movies": movies,
+    })
+
+
+def favorite_bands(request):
+    profile = get_profile()
+    bands = FavoriteItem.objects.filter(category__iexact="band")
+    return render(request, "resume/bands.html", {
+        "profile": profile,
+        "bands": bands,
     })
