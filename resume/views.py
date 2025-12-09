@@ -10,6 +10,18 @@ from .models import ContactMessage, Profile
 from .models import FavoriteItem
 import traceback
 
+from django.shortcuts import render
+from .models import FavoriteItem
+
+from django.http import HttpResponse
+from django.core.mail import send_mail
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .forms import ContactForm
+import resend
+import os
+
 
 def get_profile():
     return Profile.objects.first()  # your single profile
@@ -102,51 +114,44 @@ def languages_view(request):
         "languages": languages,
     })
 
-
 def contact_view(request):
-    profile = Profile.objects.first()
-
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data["name"]
-            email = form.cleaned_data["email"]
-            message_text = form.cleaned_data["message"]
+            data = form.cleaned_data
+            name = data["name"]
+            email = data["email"]
+            message = data["message"]
 
-            ContactMessage.objects.create(
-                name=name,
-                email=email,
-                message=message_text,
-            )
+            resend.api_key = os.environ.get("RESEND_API_KEY")
 
-            subject = f"New message from {name} via portfolio"
-            full_message = (
-                f"From: {name} <{email}>\n\n"
-                f"Message:\n{message_text}"
-            )
+            html_content = f"""
+                <p><strong>Name:</strong> {name}</p>
+                <p><strong>Email:</strong> {email}</p>
+                <p><strong>Message:</strong></p>
+                <p>{message.replace("\n", "<br>")}</p>
+            """
 
-            send_mail(
-                subject,
-                full_message,
-                None,
-                ["heyitsdavit@gmail.com"],
-            )
+            try:
+                resend.Emails.send({
+                    "from": f"{name} <onboarding@resend.dev>",
+                    "to": ["heyitsdavit@gmail.com"],
+                    "subject": f"New message from {name}",
+                    "reply_to": [email],
+                    "html": html_content,
+                })
 
-            messages.success(request, "Thanks, your message has been sent.")
+                messages.success(request, "Thanks! Your message has been sent.")
+            except Exception as e:
+                print("RESEND ERROR:", e)
+                messages.error(request, "Something went wrong while sending your message.")
+
             return redirect("contact")
+
     else:
         form = ContactForm()
 
-    return render(request, "resume/contact.html", {
-        "profile": profile,
-        "form": form,
-    })
-
-from django.shortcuts import render
-from .models import FavoriteItem
-
-from django.http import HttpResponse
-from django.core.mail import send_mail
+    return render(request, "resume/contact.html", {"form": form})
 
 
 def favorite_animes(request):
@@ -175,16 +180,4 @@ def favorite_bands(request):
         "bands": bands,
     })
 
-def test_email(request):
-    try:
-        send_mail(
-            "Test from Railway",
-            "If you get this email, SMTP works.",
-            None,
-            ["heyitsdavit@gmail.com"],
-            fail_silently=False,
-        )
-        return HttpResponse("OK: Email sent")
-    except Exception as e:
-        tb = traceback.format_exc()
-        return HttpResponse(f"<pre>{tb}</pre>")
+

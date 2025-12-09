@@ -106,14 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# EMAIL SETTINGS (use environment variables in real deployment)
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.googlemail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")          # your Gmail
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")     # NOT your normal password!
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 
 CSRF_TRUSTED_ORIGINS = [
     "https://resume-site-production.up.railway.app",
