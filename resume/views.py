@@ -144,6 +144,9 @@ def contact_view(request):
 from django.shortcuts import render
 from .models import FavoriteItem
 
+from django.http import HttpResponse
+from django.core.mail import send_mail
+
 
 def favorite_animes(request):
     profile = get_profile()
@@ -170,3 +173,16 @@ def favorite_bands(request):
         "profile": profile,
         "bands": bands,
     })
+
+def test_email(request):
+    try:
+        send_mail(
+            "Test from Railway",
+            "If you see this email, SMTP works.",
+            None,
+            ["heyitsdavit@gmail.com"],
+            fail_silently=False,
+        )
+        return HttpResponse("OK: Email sent")
+    except Exception as e:
+        return HttpResponse(f"ERROR: {e}")
