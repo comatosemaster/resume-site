@@ -125,7 +125,7 @@ def contact_view(request):
             email = data["email"]
             message = data["message"]
 
-            resend.api_key = os.environ.get("RESEND_API_KEY")
+            resend.api_key = os.environ.get("RESEND-API-KEY")
 
             html_content = f"""
                 <p><strong>Name:</strong> {name}</p>
