@@ -31,6 +31,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "resume-site-production.up.railway.app",
     "resume-site-2p99.onrender.com",
+    "davit-resume.com"
 ]
 
 
@@ -110,6 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "https://resume-site-production.up.railway.app",
+    "https://davit-resume.com"
 ]
 
 
