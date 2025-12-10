@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
+    <meta property="og:title" content="Davit Mujirishvili – Resume Website">
+    <meta property="og:description" content="Middle QA Engineer – Resume, projects, skills and contact information.">
+    <meta property="og:image" content="https://davit-resume.com{% static 'resume/images/favicon.png' %}">
+    <meta property="og:url" content="https://davit-resume.com">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/png" href="{% static 'resume/images/favicon.png' %}">
     <title>{% block title %}{{ profile.full_name }}{% endblock %}</title>
 
